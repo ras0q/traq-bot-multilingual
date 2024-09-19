@@ -2,7 +2,7 @@
   "name": "traq-bot-multilingual",
   "private": true,
   "engines": {
-    "node": "20.x"
+    "node": "22.x"
   },
   "devDependencies": {
     "@types/node": "^22.5.5",
@@ -13,6 +13,7 @@
     "ws": "^8.18.0"
   },
   "scripts": {
-    "start": "tsc main.ts && node main.js"
+    "build": "tsc main.ts",
+    "start": "npm run build && node main.js"
   }
 }

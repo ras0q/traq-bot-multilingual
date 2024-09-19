@@ -1,0 +1,19 @@
+x-traq-env: &traq-env
+  TRAQ_BOT_ACCESS_TOKEN:
+
+services:
+  deno:
+    container_name: deno
+    build:
+      context: ./deno
+    environment: *traq-env
+  go:
+    container_name: go
+    build:
+      context: ./go
+    environment: *traq-env
+  nodejs:
+    container_name: nodejs
+    build:
+      context: ./nodejs
+    environment: *traq-env
