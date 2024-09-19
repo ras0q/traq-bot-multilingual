@@ -1,0 +1,18 @@
+{
+  "name": "traq-bot-multilingual",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.5",
+    "@types/ws": "^8.5.12",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "scripts": {
+    "start": "tsc main.ts && node main.js"
+  }
+}
