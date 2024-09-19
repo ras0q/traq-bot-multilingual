@@ -1,22 +1,10 @@
 import { WebSocket } from "ws";
 
-export const log = (...args: unknown[]) => {
-  console.log("nodejs", ...args);
-};
-
 const accessToken = process.env.TRAQ_BOT_ACCESS_TOKEN;
 if (!accessToken) throw "TRAQ_BOT_ACCESS_TOKEN is not set";
 
-const ws = new WebSocket("wss://q.trap.jp/api/v3/bots/ws", {
-  headers: {
-    authorization: `Bearer ${accessToken}`,
-  },
-});
-
-console.log("connected");
-
-ws.onmessage = async (e) => {
-  const payload = JSON.parse(e.data.toString()) as
+const handleMessage = async (message: string) => {
+  const payload = JSON.parse(message) as
     | {
         type: "MESSAGE_CREATED";
         reqId: string;
@@ -51,6 +39,7 @@ ws.onmessage = async (e) => {
   const args = plainText.split(" ");
   if (args.length !== 2 || !args[0].startsWith("@") || args[1] !== "nodejs") {
     console.log(`invalid args(${payload.reqId}): ${plainText}`);
+    return;
   }
 
   const stamp = ":node_js:";
@@ -73,3 +62,15 @@ const postMessage = async (channelId: string, content: string) => {
     },
   });
 };
+
+if (require.main) {
+  const ws = new WebSocket("wss://q.trap.jp/api/v3/bots/ws", {
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  console.log("connected");
+
+  ws.onmessage = (e) => handleMessage(e.data.toString());
+}
